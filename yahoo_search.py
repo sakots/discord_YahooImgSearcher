@@ -30,7 +30,11 @@ load_dotenv()
 
 token = os.environ['ACCESS_TOKEN']
 
-client = discord.Client()
+# 接続に必要なオブジェクトを生成
+Intents = discord.Intents.default()
+Intents.members = True
+client = discord.Client(intents=Intents)
+
 async def on_ready():
     print(client.user.name)
     print(client.user.id)
@@ -44,8 +48,8 @@ def _request(url):
     req = Request(url)
     try:
         with urlopen(req, timeout=5) as p:
-             b_content = p.read()
-             mime = p.getheader('Content-Type')
+            b_content = p.read()
+            mime = p.getheader('Content-Type')
     except:
         return None, None
     return b_content, mime
